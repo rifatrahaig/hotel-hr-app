@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Talbot Hotel HR - Holiday Requests</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2456b8" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="css/styles.css?v=13" />
+  <script type="module" src="js/theme.js?v=13"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-title">
+      <span class="logo-mark" id="logo-mark"></span>
+      <div style="min-width:0;">
+        <div class="brand">Talbot Hotel HR</div>
+        <h1>Holiday Requests</h1>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <a href="dashboard.html" class="icon-btn">Back</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Manager approvals -->
+    <div class="card hidden" id="approvals-card">
+      <h2>Pending approvals</h2>
+      <div id="approvals-list"></div>
+    </div>
+
+    <div class="card">
+      <h2>Request holiday</h2>
+      <p class="muted" style="margin-top:-6px;">Tap the dates you want off, add a note, then submit.</p>
+
+      <div class="cal-head">
+        <button class="btn secondary small" id="cal-prev">&larr;</button>
+        <h3 id="cal-title" style="margin:0;"></h3>
+        <button class="btn secondary small" id="cal-next">&rarr;</button>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+
+      <p class="muted" id="selected-summary" style="margin:12px 0;">No dates selected.</p>
+
+      <label for="holiday-comment">Reason / comment</label>
+      <textarea id="holiday-comment" placeholder="e.g. Family visit"></textarea>
+
+      <button class="btn" id="holiday-submit">Submit request</button>
+    </div>
+
+    <div class="card">
+      <h2>My requests</h2>
+      <div id="my-requests"></div>
+    </div>
+  </main>
+
+  <script type="module" src="js/holidaysPage.js?v=13"></script>
+</body>
+</html>

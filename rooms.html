@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Talbot Hotel HR - Rooms</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2456b8" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="css/styles.css?v=13" />
+  <script type="module" src="js/theme.js?v=13"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-title">
+      <span class="logo-mark" id="logo-mark"></span>
+      <div style="min-width:0;">
+        <div class="brand">Talbot Hotel HR</div>
+        <h1>Rooms &amp; Housekeeping</h1>
+        <div class="subtitle" id="rooms-summary"></div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <a href="dashboard.html" class="icon-btn">Back</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="seg-tabs" id="seg-tabs"></div>
+
+    <div class="card" id="maint-form-card" style="display:none;">
+      <h2>Report a maintenance issue</h2>
+      <label for="maint-room">Room</label>
+      <select id="maint-room"></select>
+      <label for="maint-desc">Describe the issue</label>
+      <textarea id="maint-desc" placeholder="e.g. Bathroom tap dripping"></textarea>
+      <button class="btn" id="maint-submit">Report issue</button>
+    </div>
+
+    <div class="card" id="task-form-card" style="display:none;">
+      <h2>Assign a task</h2>
+      <label for="task-desc">Task</label>
+      <textarea id="task-desc" placeholder="e.g. Put a fan in Room 102, clean the public toilet"></textarea>
+      <label for="task-assignee">Assign to</label>
+      <select id="task-assignee"></select>
+      <button class="btn" id="task-submit">Assign task</button>
+    </div>
+
+    <div class="card">
+      <div id="rooms-list"></div>
+    </div>
+  </main>
+
+  <div id="modal-root"></div>
+
+  <script type="module" src="js/roomsPage.js?v=13"></script>
+</body>
+</html>

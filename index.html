@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Talbot Hotel HR - Sign In</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2456b8" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="css/styles.css?v=13" />
+  <script type="module" src="js/theme.js?v=13"></script>
+</head>
+<body>
+  <div class="center-screen">
+    <div class="auth-card">
+      <div class="auth-logo" id="auth-logo"></div>
+      <div class="logo">Talbot Hotel HR</div>
+      <div class="tagline">Staff rota &amp; HR<br />Clock in/out · fire walks · housekeeping</div>
+
+      <form id="signin-form">
+        <label for="signin-email">Email</label>
+        <input type="email" id="signin-email" required autocomplete="username" placeholder="you@example.com" />
+
+        <label for="signin-password">Password</label>
+        <input type="password" id="signin-password" required autocomplete="current-password" placeholder="••••••••" />
+
+        <button type="submit" class="btn" id="signin-btn">Sign in</button>
+      </form>
+
+      <div class="divider">or</div>
+
+      <button type="button" id="toggle-signup" class="btn secondary">First time here? Create an account</button>
+
+      <form id="signup-form" class="hidden" style="margin-top: 18px;">
+        <label for="signup-name">Full name</label>
+        <input type="text" id="signup-name" required autocomplete="name" placeholder="Jane Smith" />
+
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" required autocomplete="username" placeholder="you@example.com" />
+
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" required minlength="6" autocomplete="new-password" placeholder="At least 6 characters" />
+
+        <p class="muted" style="margin-top:-4px; margin-bottom: 16px;">
+          Your account is created as regular staff. A manager will assign your team afterwards.
+        </p>
+
+        <button type="submit" class="btn" id="signup-btn">Create account</button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { signIn, signUp, getSession } from "./js/auth.js?v=13";
+    import { toast, setLoading, LOGO_SVG } from "./js/ui.js?v=13";
+
+    document.getElementById("auth-logo").innerHTML = LOGO_SVG;
+
+    // Already signed in? Skip straight to the dashboard.
+    getSession().then((session) => {
+      if (session) window.location.href = "dashboard.html";
+    });
+
+    const signinForm = document.getElementById("signin-form");
+    const signinBtn = document.getElementById("signin-btn");
+
+    signinForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      setLoading(signinBtn, true);
+      try {
+        await signIn(
+          document.getElementById("signin-email").value.trim(),
+          document.getElementById("signin-password").value
+        );
+        window.location.href = "dashboard.html";
+      } catch (err) {
+        toast(err.message || "Could not sign in.", "error");
+        setLoading(signinBtn, false);
+      }
+    });
+
+    const toggleBtn = document.getElementById("toggle-signup");
+    const signupForm = document.getElementById("signup-form");
+    toggleBtn.addEventListener("click", () => {
+      signupForm.classList.toggle("hidden");
+      const hidden = signupForm.classList.contains("hidden");
+      toggleBtn.textContent = hidden
+        ? "First time here? Create an account"
+        : "Hide sign-up";
+      if (!hidden) signupForm.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+
+    const signupBtn = document.getElementById("signup-btn");
+    signupForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      setLoading(signupBtn, true);
+      try {
+        const data = await signUp(
+          document.getElementById("signup-email").value.trim(),
+          document.getElementById("signup-password").value,
+          document.getElementById("signup-name").value.trim()
+        );
+        if (data.session) {
+          window.location.href = "dashboard.html";
+        } else {
+          toast("Account created. Check your email to confirm, then sign in.", "success", 6000);
+          signupForm.reset();
+          setLoading(signupBtn, false);
+        }
+      } catch (err) {
+        toast(err.message || "Could not create account.", "error");
+        setLoading(signupBtn, false);
+      }
+    });
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    }
+  </script>
+</body>
+</html>

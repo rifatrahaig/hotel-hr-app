@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Talbot Hotel HR - Settings</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2456b8" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="css/styles.css?v=13" />
+  <script type="module" src="js/theme.js?v=13"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-title">
+      <span class="logo-mark" id="logo-mark"></span>
+      <div style="min-width:0;">
+        <div class="brand">Talbot Hotel HR</div>
+        <h1>Settings</h1>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <a href="dashboard.html" class="icon-btn">Back</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>Appearance</h2>
+      <label for="theme-select">Theme</label>
+      <select id="theme-select">
+        <option value="system">Match device (automatic)</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+      <p class="muted" style="margin-top:-6px;">Your choice is saved on this device.</p>
+    </div>
+
+    <div class="card" id="notifications">
+      <h2>Notifications</h2>
+      <label for="notif-select">In-app notifications</label>
+      <select id="notif-select">
+        <option value="on">On</option>
+        <option value="off">Off</option>
+      </select>
+      <p class="muted" style="margin-top:-6px; margin-bottom:14px;">
+        Instant alerts for cleaning requests, maintenance updates and holiday decisions while the app is open.
+      </p>
+      <button class="btn secondary" id="device-notif-btn">Allow device notifications</button>
+      <p class="muted" id="device-notif-status" style="margin-top:10px;"></p>
+    </div>
+
+    <div class="card">
+      <h2>Account</h2>
+      <p class="muted" id="account-info">Loading...</p>
+      <button class="btn danger" id="logout-btn" style="margin-top:8px;">Log out</button>
+    </div>
+  </main>
+
+  <script type="module">
+    import { requireSession, signOut } from "./js/auth.js?v=13";
+    import { LOGO_SVG, toast } from "./js/ui.js?v=13";
+    import { getTheme, setTheme } from "./js/theme.js?v=13";
+    import { notificationsEnabled, setNotificationsEnabled } from "./js/notifications.js?v=13";
+
+    const { profile } = await requireSession();
+    document.getElementById("logo-mark").innerHTML = LOGO_SVG;
+    document.getElementById("account-info").textContent =
+      `${profile.full_name} · ${profile.role === "manager" ? "Manager" : "Staff"} · ${profile.department}`;
+    document.getElementById("logout-btn").addEventListener("click", signOut);
+
+    // Theme
+    const themeSelect = document.getElementById("theme-select");
+    themeSelect.value = getTheme();
+    themeSelect.addEventListener("change", () => {
+      setTheme(themeSelect.value);
+      toast("Theme updated.", "success");
+    });
+
+    // Notifications
+    const notifSelect = document.getElementById("notif-select");
+    notifSelect.value = notificationsEnabled() ? "on" : "off";
+    notifSelect.addEventListener("change", () => {
+      setNotificationsEnabled(notifSelect.value === "on");
+      toast(notifSelect.value === "on" ? "Notifications on." : "Notifications off.", "success");
+    });
+
+    const devBtn = document.getElementById("device-notif-btn");
+    const devStatus = document.getElementById("device-notif-status");
+    function refreshDeviceStatus() {
+      if (!("Notification" in window)) {
+        devStatus.textContent = "Device notifications are not supported in this browser.";
+        devBtn.disabled = true;
+        return;
+      }
+      if (Notification.permission === "granted") {
+        devStatus.textContent = "Device notifications are allowed.";
+        devBtn.disabled = true;
+      } else if (Notification.permission === "denied") {
+        devStatus.textContent = "Blocked. Enable notifications for this site in your browser/phone settings.";
+        devBtn.disabled = true;
+      } else {
+        devStatus.textContent = "Not yet allowed.";
+      }
+    }
+    refreshDeviceStatus();
+    devBtn.addEventListener("click", async () => {
+      await Notification.requestPermission();
+      refreshDeviceStatus();
+    });
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    }
+  </script>
+</body>
+</html>

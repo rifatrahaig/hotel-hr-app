@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Talbot Hotel HR - Manager</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2456b8" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="css/styles.css?v=13" />
+  <script type="module" src="js/theme.js?v=13"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-title">
+      <span class="logo-mark" id="logo-mark"></span>
+      <div style="min-width:0;">
+        <div class="brand">Talbot Hotel HR</div>
+        <h1>Manager</h1>
+        <div class="subtitle" id="manager-name"></div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <a href="dashboard.html" class="icon-btn">Dashboard</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- STAFF -->
+    <section class="tab-panel active" id="panel-staff">
+      <div class="card">
+        <h2>Staff</h2>
+        <p class="muted">Assign each person's role and department. Department controls which extra tools (fire walk / housekeeping) they see.</p>
+        <div id="staff-list"></div>
+      </div>
+    </section>
+
+    <!-- ROTA -->
+    <section class="tab-panel" id="panel-rota">
+      <div class="card">
+        <h2>Upload weekly rota</h2>
+        <label for="rota-staff">Staff member</label>
+        <select id="rota-staff"></select>
+
+        <label for="rota-week">Week starting (Monday)</label>
+        <input type="date" id="rota-week" />
+
+        <div id="rota-days"></div>
+
+        <button class="btn" id="rota-save">Save week</button>
+      </div>
+    </section>
+
+    <!-- LOGS -->
+    <section class="tab-panel" id="panel-logs">
+      <div class="card">
+        <h2>History</h2>
+        <div class="seg-tabs" id="log-mode">
+          <button class="seg-tab active" data-mode="day">Day</button>
+          <button class="seg-tab" data-mode="week">Week</button>
+          <button class="seg-tab" data-mode="month">Month</button>
+        </div>
+        <div class="period-nav">
+          <button class="nav-arrow" id="period-prev" aria-label="Previous">&lsaquo;</button>
+          <div class="period-label" id="period-label">Today</div>
+          <button class="nav-arrow" id="period-next" aria-label="Next">&rsaquo;</button>
+        </div>
+        <div class="seg-tabs" id="day-quickpick" style="margin-top:12px;"></div>
+      </div>
+
+      <details class="card log-group" open>
+        <summary>Clock in / out <span class="count" id="count-clock">0</span></summary>
+        <div id="log-clock" class="log-body"></div>
+      </details>
+      <details class="card log-group">
+        <summary>Fire walk <span class="count" id="count-firewalk">0</span></summary>
+        <div id="log-firewalk" class="log-body"></div>
+      </details>
+      <details class="card log-group">
+        <summary>Cleaning &amp; ready checks <span class="count" id="count-housekeeping">0</span></summary>
+        <div id="log-housekeeping" class="log-body"></div>
+      </details>
+      <details class="card log-group">
+        <summary>Maintenance <span class="count" id="count-maint">0</span></summary>
+        <div id="log-maint" class="log-body"></div>
+      </details>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button data-tab="staff" class="active"><span class="nav-icon" data-icon="users"></span>Staff</button>
+    <button data-tab="rota"><span class="nav-icon" data-icon="calendar"></span>Rota</button>
+    <button data-tab="logs"><span class="nav-icon" data-icon="clipboard"></span>Logs</button>
+  </nav>
+
+  <script type="module" src="js/adminPage.js?v=13"></script>
+</body>
+</html>

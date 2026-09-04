@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Talbot Hotel HR</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2456b8" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="css/styles.css?v=13" />
+  <script type="module" src="js/theme.js?v=13"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-title">
+      <span class="logo-mark" id="logo-mark"></span>
+      <div style="min-width:0;">
+        <div class="brand">Talbot Hotel HR</div>
+        <h1 id="staff-name">Welcome</h1>
+        <div class="subtitle" id="staff-meta"></div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <a href="admin.html" id="admin-link" class="icon-btn hidden">Admin</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- ROTA -->
+    <section class="tab-panel active" id="panel-rota">
+      <div class="card hidden" id="my-tasks-card">
+        <h2>My tasks</h2>
+        <div id="my-tasks-list"></div>
+      </div>
+      <div class="card">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+          <button class="btn secondary small" id="week-prev">&larr; Prev</button>
+          <h2 id="week-label" style="margin:0;">This week</h2>
+          <button class="btn secondary small" id="week-next">Next &rarr;</button>
+        </div>
+        <div id="rota-list"></div>
+      </div>
+    </section>
+
+    <!-- CLOCK IN/OUT -->
+    <section class="tab-panel" id="panel-clock">
+      <div class="card">
+        <h2>Clock in / out</h2>
+        <div class="timer" id="clock-timer">--:--:--</div>
+        <p class="muted" id="clock-status" style="text-align:center; margin-top:-8px;"></p>
+        <button class="btn" id="clock-btn">Clock In</button>
+      </div>
+      <div class="card">
+        <h2>Recent</h2>
+        <div id="clock-history"></div>
+      </div>
+    </section>
+
+    <!-- FIRE WALK -->
+    <section class="tab-panel" id="panel-firewalk">
+      <div class="card">
+        <h2>Fire walk</h2>
+        <p class="muted" style="margin-top:-6px;">Every hour from 12:00 AM to 6:00 AM.</p>
+        <p id="firewalk-status" class="muted"></p>
+        <div id="fw-slots"></div>
+      </div>
+      <div class="card" id="fw-form-card" style="display:none;">
+        <h2 id="fw-form-title">Log fire walk</h2>
+        <div id="fw-questions"></div>
+        <label for="fw-activity">Any activity or issues? (write here, or "None")</label>
+        <textarea id="fw-activity" placeholder='e.g. All quiet — or: guest in 3rd floor corridor'></textarea>
+        <button type="button" class="btn" id="fw-submit">Submit check</button>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" id="bottom-nav">
+    <button data-tab="rota" class="active"><span class="nav-icon" data-icon="calendar"></span>Rota</button>
+    <button data-tab="clock"><span class="nav-icon" data-icon="clock"></span>Clock</button>
+    <button data-tab="firewalk" id="nav-firewalk" class="hidden"><span class="nav-icon" data-icon="flame"></span>Fire Walk</button>
+    <a href="rooms.html" id="nav-rooms"><span class="nav-icon" data-icon="bed"></span>Rooms</a>
+  </nav>
+
+  <script type="module" src="js/dashboardPage.js?v=13"></script>
+</body>
+</html>
