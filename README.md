@@ -1,4 +1,4 @@
-# Talbot Hotel HR App
+# Hotel HR App
 
 A production PWA for hotel staff operations: rotas, clock in/out, room management, fire-safety checks, holiday requests, task assignment, and activity logging. Built as a zero-build installable web app (iOS/Android) backed by Supabase.
 
